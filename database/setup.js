@@ -66,8 +66,37 @@ const Task = db.define('Task', {
     }
 });
 
+// Define User model
+const User = db.define('User', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+});
+
+//Relationships
+
+User.hasMany(Project,{foreignKey:"id"});
+Project.belongsTo(User,{foreignKey:"id"});
+
+Project.hasMany(Task,{foreignKey:"id"});
+Task.belongsTo(Project,{foreignKey:"id"});
+
 // Export for use in other files
-module.exports = { db, Project, Task };
+module.exports = { db, Project, Task, User };
 
 // Create database and tables
 async function setupDatabase() {
